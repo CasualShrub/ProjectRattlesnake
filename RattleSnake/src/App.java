@@ -1,3 +1,11 @@
+/*
+As of this version, the code is taken almost entirely from Kenny Yip Coding's online tutorial https://www.youtube.com/watch?v=Y62MJny9LHg.
+I intend to use this code as a foundation for building my own augmented version of the classic snake game.
+
+@author Alex Bernard Francia
+@version 1.0
+*/
+
 import javax.swing.*;
 
 public class App {

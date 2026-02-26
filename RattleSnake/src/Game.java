@@ -1,3 +1,11 @@
+/*
+As of this version, the code is taken almost entirely from Kenny Yip Coding's online tutorial https://www.youtube.com/watch?v=Y62MJny9LHg.
+I intend to use this code as a foundation for building my own augmented version of the classic snake game.
+
+@author Alex Bernard Francia
+@version 1.0
+*/
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -62,11 +70,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
 
     public void draw(Graphics g) {
+        // Gridlines
         for (int i = 0; i < screenWidth/tileSize; i++){
-            g.drawLine(i*tileSize, 0, i*tileSize, screenHeight); //vertical line
+            g.drawLine(i*tileSize, 0, i*tileSize, screenHeight);
             g.drawLine(0, i*tileSize, screenWidth, i*tileSize);
         }
 
+        // Snake
         g.setColor(Color.green);
         g.fill3DRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize, true);
 
@@ -75,9 +85,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             g.fill3DRect(section.x * tileSize, section.y * tileSize, tileSize, tileSize, true);
         }
 
+        // Pellets
         g.setColor(Color.red);
         g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
 
+        // Game Text
         g.setFont(new Font("Arial", Font.PLAIN, 16));
         if (gameOver) {
             g.drawString("Game Over: " + String.valueOf(snakeBody.size()), tileSize - 16, tileSize);
