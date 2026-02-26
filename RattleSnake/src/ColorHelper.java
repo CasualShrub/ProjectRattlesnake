@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.util.Random;
 
 public class ColorHelper {
 
@@ -12,8 +11,7 @@ public class ColorHelper {
     private ColorHelper() {}
 
     public static Color GetRandomPelletColor() {
-        Random random = new Random();
-        int i = random.nextInt(pelletColors.length);
+        int i = RandomHelper.GetRandom().nextInt(pelletColors.length);
         return pelletColors[i];
     }
 }

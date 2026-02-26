@@ -9,14 +9,12 @@ I intend to use this code as a foundation for building my own augmented version 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.*;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
     int screenWidth;
     int screenHeight;
     int tileSize = 20;
-    Random random;
     Tile snakeHead;
     ArrayList<Tile> snakeBody;
     Tile pellet;
@@ -37,11 +35,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         setBackground(Color.black);
         addKeyListener(this);
         setFocusable(true);
+        RandomHelper.InitializeRandom();
 
-        snakeHead = new Tile(15,15);
+        snakeHead = new Tile(15,15, ColorHelper.SnakeColor);
         snakeBody = new ArrayList<Tile>();
-        pellet = new Tile(0,0);
-        random = new Random();
+        pellet = new Tile(0,0, ColorHelper.GetRandomPelletColor());
         
         spawnTileRandom(pellet);
 
@@ -53,8 +51,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
 
     public void spawnTileRandom(Tile tile) {
-        tile.x = random.nextInt(screenWidth/tileSize);
-        tile.y = random.nextInt(screenHeight/tileSize);
+        tile.x = RandomHelper.GetRandom().nextInt(screenWidth/tileSize);
+        tile.y = RandomHelper.GetRandom().nextInt(screenHeight/tileSize);
     }
 
     public void paintComponent(Graphics g) {
@@ -79,7 +77,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
 
         // Pellets
-        g.setColor(ColorHelper.GetRandomPelletColor());
+        g.setColor(pellet.color);
         g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
 
         // Game Text
