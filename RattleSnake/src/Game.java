@@ -145,18 +145,30 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
+                if (velocityX == 0) {
+                    break;
+                }
                 velocityX = 0;
                 velocityY = -1;
                 break;
             case KeyEvent.VK_DOWN:
+                if (velocityX == 0) {
+                    break;
+                }
                 velocityX = 0;
                 velocityY = 1;
                 break;
             case KeyEvent.VK_LEFT:
+                if (velocityY == 0) {
+                    break;
+                }
                 velocityX = -1;
                 velocityY = 0;
                 break;
             case KeyEvent.VK_RIGHT:
+                if (velocityY == 0) {
+                    break;
+                }
                 velocityX = 1;
                 velocityY = 0;
                 break;
