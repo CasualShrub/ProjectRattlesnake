@@ -9,7 +9,11 @@ public class App {
         frame.setVisible(true);
         frame.setSize(screenWidth, screenHeight);
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        Game game = new Game(screenWidth, screenHeight);
+        frame.add(game);
+        frame.pack();
     }
 }
