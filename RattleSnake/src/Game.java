@@ -21,7 +21,7 @@ public class Game extends JPanel{
     int tileSize = 20;
 
     Tile snakeHead = new Tile(7, 7);
-
+    Tile pellet = new Tile(10, 10);
 
     Game(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
@@ -40,8 +40,11 @@ public class Game extends JPanel{
             g.drawLine(i*tileSize, 0, i*tileSize, screenHeight); //vertical line
             g.drawLine(0, i*tileSize, screenWidth, i*tileSize);
         }
-        
+
         g.setColor(Color.green);
         g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
+
+        g.setColor(Color.red);
+        g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
     }
 }
