@@ -21,6 +21,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     int tileSize = 20;
     Random random;
     Tile snakeHead;
+    ArrayList<Tile> snakeBody;
     Tile pellet;
 
     Timer gameLoop;
@@ -36,6 +37,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
 
         snakeHead = new Tile(0,0);
+        snakeBody = new ArrayList<Tile>();
         pellet = new Tile(0,0);
         random = new Random();
         
@@ -68,11 +70,39 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.green);
         g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
 
+        for (int i = 0; i < snakeBody.size(); i++) {
+            Tile section = snakeBody.get(i);
+            g.fillRect(section.x * tileSize, section.y * tileSize, tileSize, tileSize);
+        }
+
         g.setColor(Color.red);
         g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
+
+
+    }
+
+    public boolean collision(Tile tile1, Tile tile2) {
+        return tile1.x == tile2.x && tile1.y == tile2.y;
     }
 
     public void slither() {
+        if (collision(snakeHead, pellet)) {
+            snakeBody.add(new Tile(pellet.x, pellet.y));
+            spawnTileRandom(pellet);
+        }
+
+        for (int i = snakeBody.size()- 1; i >= 0; i--){
+            Tile section = snakeBody.get(i);
+            if (i == 0) {
+                section.x = snakeHead.x;
+                section.y = snakeHead.y;
+            }
+            else {
+                Tile prevSection = snakeBody.get(i - 1);
+                section.x = prevSection.x;
+                section.y = prevSection.y;
+            }
+        }
         snakeHead.x += velocityX;
         snakeHead.y += velocityY;
     }
