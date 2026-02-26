@@ -73,6 +73,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         for (int i = 0; i < snakeBody.size(); i++) {
             Tile section = snakeBody.get(i);
+            g.setColor(section.color);
             g.fill3DRect(section.x * tileSize, section.y * tileSize, tileSize, tileSize, true);
         }
 
@@ -98,7 +99,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public void slither() {
         if (collision(snakeHead, pellet)) {
-            snakeBody.add(new Tile(pellet.x, pellet.y));
+            snakeBody.add(new Tile(pellet.x, pellet.y, pellet.color));
+            pellet.SetColor(ColorHelper.GetRandomPelletColor());
             spawnTileRandom(pellet);
         }
 

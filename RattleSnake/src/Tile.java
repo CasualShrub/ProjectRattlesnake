@@ -14,4 +14,8 @@ public class Tile {
         this.y = y;
         this.color = color;
     }
+
+    public void SetColor(Color color) {
+        this.color = color;
+    }
 } 
