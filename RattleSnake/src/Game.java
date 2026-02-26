@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
-public class Game extends JPanel{
+public class Game extends JPanel implements ActionListener{
 
     private class Tile {
         int x;
@@ -23,6 +23,7 @@ public class Game extends JPanel{
     Tile snakeHead;
     Tile pellet;
 
+    Timer gameLoop;
 
     Game(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
@@ -36,6 +37,9 @@ public class Game extends JPanel{
         
         spawnTileRandom(snakeHead);
         spawnTileRandom(pellet);
+
+        gameLoop = new Timer(100, this);
+        gameLoop.start();
     }
 
     public void spawnTileRandom(Tile tile) {
@@ -59,6 +63,11 @@ public class Game extends JPanel{
 
         g.setColor(Color.red);
         g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
     }
 
 }
