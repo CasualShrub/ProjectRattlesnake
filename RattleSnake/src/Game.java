@@ -70,7 +70,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
 
         // Snake
-        g.setColor(Color.green);
+        g.setColor(ColorHelper.SnakeColor);
         g.fill3DRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize, true);
 
         for (int i = 0; i < snakeBody.size(); i++) {
@@ -79,16 +79,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
 
         // Pellets
-        g.setColor(Color.red);
+        g.setColor(ColorHelper.GetRandomPelletColor());
         g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
 
         // Game Text
         g.setFont(new Font("Arial", Font.PLAIN, 16));
         if (gameOver) {
+            g.setColor(ColorHelper.GameOverTextColor);
             g.drawString("Game Over: " + String.valueOf(snakeBody.size()), tileSize - 16, tileSize);
         }
         else {
-            g.setColor(Color.green);
+            g.setColor(ColorHelper.ScoreTextColor);
             g.drawString("Score: " + String.valueOf(snakeBody.size()), tileSize - 16, tileSize);
         }
     }
