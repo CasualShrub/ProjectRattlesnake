@@ -19,15 +19,28 @@ public class Game extends JPanel{
     int screenWidth;
     int screenHeight;
     int tileSize = 20;
+    Random random;
+    Tile snakeHead;
+    Tile pellet;
 
-    Tile snakeHead = new Tile(7, 7);
-    Tile pellet = new Tile(10, 10);
 
     Game(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         setPreferredSize(new Dimension(this.screenWidth, this.screenHeight));
         setBackground(Color.black);
+
+        snakeHead = new Tile(0,0);
+        pellet = new Tile(0,0);
+        random = new Random();
+        
+        spawnTileRandom(snakeHead);
+        spawnTileRandom(pellet);
+    }
+
+    public void spawnTileRandom(Tile tile) {
+        tile.x = random.nextInt(screenWidth/tileSize);
+        tile.y = random.nextInt(screenHeight/tileSize);
     }
 
     public void paintComponent(Graphics g) {
@@ -47,4 +60,5 @@ public class Game extends JPanel{
         g.setColor(Color.red);
         g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
     }
+
 }
