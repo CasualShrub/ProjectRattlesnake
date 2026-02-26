@@ -2,7 +2,7 @@ import java.awt.Color;
 public class Tile {
     int x;
     int y;
-    Color color;
+    private Color color;
 
     Tile (int x, int y) {
         this.x = x;
@@ -17,5 +17,9 @@ public class Tile {
 
     public void SetColor(Color color) {
         this.color = color;
+    }
+
+    public Color GetColor() {
+        return this.color;
     }
 } 

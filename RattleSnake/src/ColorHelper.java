@@ -2,7 +2,7 @@ import java.awt.Color;
 
 public class ColorHelper {
 
-    public static Color SnakeColor = Color.green;
+    public static Color DefaultSnakeColor = Color.green;
     private static Color pelletColors[] = {Color.red, Color.blue, Color.yellow};
     public static Color GameOverTextColor = Color.red;
     public static Color ScoreTextColor = Color.green;

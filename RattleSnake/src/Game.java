@@ -37,7 +37,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         RandomHelper.InitializeRandom();
 
-        snakeHead = new Tile(15,15, ColorHelper.SnakeColor);
+        snakeHead = new Tile(15,15, ColorHelper.DefaultSnakeColor);
         snakeBody = new ArrayList<Tile>();
         pellet = new Tile(0,0, ColorHelper.GetRandomPelletColor());
         
@@ -68,17 +68,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
 
         // Snake
-        g.setColor(ColorHelper.SnakeColor);
+        g.setColor(snakeHead.GetColor());
         g.fill3DRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize, true);
 
         for (int i = 0; i < snakeBody.size(); i++) {
             Tile section = snakeBody.get(i);
-            g.setColor(section.color);
+            g.setColor(section.GetColor());
             g.fill3DRect(section.x * tileSize, section.y * tileSize, tileSize, tileSize, true);
         }
 
         // Pellets
-        g.setColor(pellet.color);
+        g.setColor(pellet.GetColor());
         g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
 
         // Game Text
@@ -99,7 +99,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public void slither() {
         if (collision(snakeHead, pellet)) {
-            snakeBody.add(new Tile(pellet.x, pellet.y, pellet.color));
+            snakeBody.add(new Tile(pellet.x, pellet.y, snakeHead.GetColor()));
+            snakeHead.SetColor(pellet.GetColor());
+
             pellet.SetColor(ColorHelper.GetRandomPelletColor());
             spawnTileRandom(pellet);
         }
