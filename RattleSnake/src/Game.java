@@ -37,6 +37,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     int velocityY;
     boolean gameOver;
 
+    // Debug toggles
+    // TODO: Debug Cheat Menu
+    boolean canPhase = true;
+
     Game(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -134,9 +138,27 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             }
         }
 
-        if (snakeHead.x*tileSize < 0 || snakeHead.x*tileSize > screenWidth ||
-            snakeHead.y*tileSize < 0 || snakeHead.y*tileSize > screenHeight) {
-            gameOver = true;
+        if (canPhase){
+            // Reposition snake on opposite screen border
+            if (snakeHead.x*tileSize < 0) {
+                snakeHead.x = screenWidth/tileSize;
+            }
+            else if (snakeHead.x*tileSize > screenWidth) {
+                snakeHead.x = 0;
+            }
+            else if (snakeHead.y*tileSize < 0) {
+                snakeHead.y = screenHeight/tileSize;
+            }
+            else if (snakeHead.y*tileSize > screenHeight){
+                snakeHead.y = 0;
+            }
+        }
+        else {
+            // Die upon hitting screen border
+            if (snakeHead.x*tileSize < 0 || snakeHead.x*tileSize > screenWidth ||
+                snakeHead.y*tileSize < 0 || snakeHead.y*tileSize > screenHeight) {
+                gameOver = true;
+            }
         }
     }
 
