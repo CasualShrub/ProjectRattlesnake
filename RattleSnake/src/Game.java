@@ -37,12 +37,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
         setFocusable(true);
 
-        snakeHead = new Tile(0,0);
+        snakeHead = new Tile(15,15);
         snakeBody = new ArrayList<Tile>();
         pellet = new Tile(0,0);
         random = new Random();
         
-        spawnTileRandom(snakeHead);
         spawnTileRandom(pellet);
 
         velocityX = 0;
