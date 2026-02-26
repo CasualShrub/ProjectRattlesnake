@@ -27,6 +27,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     Timer gameLoop;
     int velocityX;
     int velocityY;
+    boolean gameOver;
 
     Game(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
@@ -105,12 +106,29 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
         snakeHead.x += velocityX;
         snakeHead.y += velocityY;
+
+        // Game over
+        for (int i = 0; i < snakeBody.size(); i++) {
+            Tile section = snakeBody.get(i);
+
+            if (collision(snakeHead, section)) {
+                gameOver = true;
+            }
+        }
+
+        if (snakeHead.x*tileSize < 0 || snakeHead.x*tileSize > screenWidth ||
+            snakeHead.y*tileSize < 0 || snakeHead.y*tileSize > screenHeight) {
+            gameOver = true;
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         slither();
         repaint();
+        if (gameOver) {
+            gameLoop.stop();
+        }
     }
 
     @Override
