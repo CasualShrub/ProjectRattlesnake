@@ -99,7 +99,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public void slither() {
         if (collision(snakeHead, pellet)) {
-            snakeBody.add(new Tile(pellet.x, pellet.y, snakeHead.GetColor()));
+            snakeBody.add(0, new Tile(pellet.x, pellet.y, snakeHead.GetColor()));
             snakeHead.SetColor(pellet.GetColor());
 
             pellet.SetColor(ColorHelper.GetRandomPelletColor());
