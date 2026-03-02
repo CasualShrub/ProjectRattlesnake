@@ -15,6 +15,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     int screenWidth;
     int screenHeight;
     int tileSize = 20;
+
+    int gameLoopDelay = 100;
+    int gameLoopSpeedIncrement = 3; //linear difficulty progression for now
+
     Tile snakeHead;
     ArrayList<Tile> snakeBody;
     ArrayList<Tile> pelletArray;
@@ -45,7 +49,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         velocityX = 0;
         velocityY = 1;
 
-        gameLoop = new Timer(100, this);
+        gameLoop = new Timer(gameLoopDelay, this);
         gameLoop.start();
     }
 
@@ -65,6 +69,16 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             repositionTileRandom(pelletArray.get(i));
         }
     }
+
+    private void incrementGameSpeed(){
+        gameLoopDelay -= gameLoopSpeedIncrement;
+        gameLoop.stop();
+        gameLoop = new Timer(gameLoopDelay, this);
+        gameLoop.start();
+    }
+
+    // enforce dont spawn in front of snake?
+    // in front of defined to be: 5x5 space with origin +3 from direction of snake
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -115,6 +129,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < pelletArray.size(); i++){
             Tile pellet = pelletArray.get(i);
             if (collision(snakeHead, pellet)) {
+
+                if (pellet.GetColor() == snakeHead.GetColor()){
+                    gameOver = true;
+                    return;
+                }
+
                 snakeBody.add(0, new Tile(pellet.x, pellet.y, snakeHead.GetColor()));
                 snakeHead.SetColor(pellet.GetColor());
 
@@ -123,6 +143,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
                 spawnNewPellet();
                 repositionAllPellets();
+
+                incrementGameSpeed();
             }
         }
 
