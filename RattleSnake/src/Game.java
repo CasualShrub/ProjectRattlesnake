@@ -18,6 +18,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     int gameLoopDelay = 100;
     final int gameLoopSpeedIncrement = 3; //linear difficulty progression for now
+    final int gameLoopMaxSpeed = 40;
 
     //spawning algorithm
     final int safeZoneDistanceFromHead = 3;
@@ -119,6 +120,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
 
     private void incrementGameSpeed(){
+        if (gameLoopDelay <= gameLoopMaxSpeed) {
+            return;
+        }
         gameLoopDelay -= gameLoopSpeedIncrement;
         gameLoop.stop();
         gameLoop = new Timer(gameLoopDelay, this);
