@@ -14,10 +14,14 @@ import javax.swing.*;
 public class Game extends JPanel implements ActionListener, KeyListener {
     int screenWidth;
     int screenHeight;
-    int tileSize = 20;
+    final int tileSize = 20;
 
     int gameLoopDelay = 100;
-    int gameLoopSpeedIncrement = 3; //linear difficulty progression for now
+    final int gameLoopSpeedIncrement = 3; //linear difficulty progression for now
+
+    //spawning algorithm
+    final int safeZoneDistanceFromHead = 3;
+    final int safeZoneSize = 5;
 
     Tile snakeHead;
     ArrayList<Tile> snakeBody;
@@ -69,7 +73,48 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public void repositionAllPellets(){
         for(int i = 0; i < pelletArray.size(); i++) {
-            repositionTileRandom(pelletArray.get(i));
+            int safeZoneOriginX = 0;
+            int safeZoneOriginY = 0;
+            Tile currentPellet = pelletArray.get(i);
+
+            switch (currentDirection){
+                case DOWN:
+                    safeZoneOriginX = snakeHead.x;
+                    safeZoneOriginY = snakeHead.y + safeZoneDistanceFromHead;
+                    break;
+                case LEFT:
+                    safeZoneOriginX = snakeHead.x - safeZoneDistanceFromHead;
+                    safeZoneOriginY = snakeHead.y;
+                    break;
+                case RIGHT:
+                    safeZoneOriginX = snakeHead.x + safeZoneDistanceFromHead;
+                    safeZoneOriginY = snakeHead.y;
+                    break;
+                case UP:
+                    safeZoneOriginX = snakeHead.x;
+                    safeZoneOriginY = snakeHead.y - safeZoneDistanceFromHead;
+                    break;
+            }
+
+            int safeBoundMinX = safeZoneOriginX - safeZoneSize;
+            int safeBoundMaxX = safeZoneOriginX + safeZoneSize;
+            int safeBoundMinY = safeZoneOriginY - safeZoneSize;
+            int safeBoundMaxY = safeZoneOriginY + safeZoneSize;
+
+            int x;
+            int y;
+            
+            while (true) {
+                x = RandomHelper.GetRandom().nextInt(screenWidth/tileSize);
+                y = RandomHelper.GetRandom().nextInt(screenHeight/tileSize);
+
+                if ((x < safeBoundMinX || x >= safeBoundMaxX) && (y < safeBoundMinY || y >= safeBoundMaxY)) {
+                    break;
+                }
+
+            }
+
+            currentPellet.setPosition(x, y);
         }
     }
 
@@ -96,19 +141,19 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
 
         // Snake
-        g.setColor(snakeHead.GetColor());
+        g.setColor(snakeHead.getColor());
         g.fill3DRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize, true);
 
         for (int i = 0; i < snakeBody.size(); i++) {
             Tile section = snakeBody.get(i);
-            g.setColor(section.GetColor());
+            g.setColor(section.getColor());
             g.fill3DRect(section.x * tileSize, section.y * tileSize, tileSize, tileSize, true);
         }
 
         // Pellets
         for (int i = 0 ; i < pelletArray.size(); i++) {
             Tile pellet = pelletArray.get(i);
-            g.setColor(pellet.GetColor());
+            g.setColor(pellet.getColor());
             g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
         }
 
@@ -133,15 +178,15 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             Tile pellet = pelletArray.get(i);
             if (collision(snakeHead, pellet)) {
 
-                if (pellet.GetColor() == snakeHead.GetColor()){
+                if (pellet.getColor() == snakeHead.getColor()){
                     gameOver = true;
                     return;
                 }
 
-                snakeBody.add(0, new Tile(pellet.x, pellet.y, snakeHead.GetColor()));
-                snakeHead.SetColor(pellet.GetColor());
+                snakeBody.add(0, new Tile(pellet.x, pellet.y, snakeHead.getColor()));
+                snakeHead.setColor(pellet.getColor());
 
-                pellet.SetColor(ColorHelper.GetRandomPelletColor());
+                pellet.setColor(ColorHelper.GetRandomPelletColor());
                 repositionTileRandom(pellet);
 
                 spawnNewPellet();

@@ -15,11 +15,16 @@ public class Tile {
         this.color = color;
     }
 
-    public void SetColor(Color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    public Color GetColor() {
+    public Color getColor() {
         return this.color;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 } 
