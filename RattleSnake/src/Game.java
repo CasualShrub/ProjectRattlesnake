@@ -26,6 +26,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     Timer gameLoop;
     int velocityX;
     int velocityY;
+    Direction currentDirection;
+    
     boolean gameOver;
 
     // Debug toggles
@@ -48,6 +50,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         velocityX = 0;
         velocityY = 1;
+        currentDirection = Direction.getDirection(velocityX, velocityY);
 
         gameLoop = new Timer(gameLoopDelay, this);
         gameLoop.start();
@@ -240,6 +243,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 velocityY = 0;
                 break;
         }
+
+        currentDirection = Direction.getDirection(velocityX, velocityY);
     }
 
     @Override
