@@ -60,6 +60,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         tile.y = RandomHelper.GetRandom().nextInt(screenHeight/tileSize);
     }
 
+    public void repositionAllPellets(){
+        for(int i = 0; i < pelletArray.size(); i++) {
+            repositionTileRandom(pelletArray.get(i));
+        }
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
@@ -116,6 +122,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 repositionTileRandom(pellet);
 
                 spawnNewPellet();
+                repositionAllPellets();
             }
         }
 
