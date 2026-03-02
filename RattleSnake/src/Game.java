@@ -17,7 +17,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     int tileSize = 20;
     Tile snakeHead;
     ArrayList<Tile> snakeBody;
-    Tile pellet;
+    ArrayList<Tile> pelletArray;
 
     Timer gameLoop;
     int velocityX;
@@ -39,9 +39,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         snakeHead = new Tile(15,15, ColorHelper.DefaultSnakeColor);
         snakeBody = new ArrayList<Tile>();
-        pellet = new Tile(0,0, ColorHelper.GetRandomPelletColor());
-        
-        spawnTileRandom(pellet);
+        pelletArray = new ArrayList<Tile>();
+        spawnNewPellet();
 
         velocityX = 0;
         velocityY = 1;
@@ -50,7 +49,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         gameLoop.start();
     }
 
-    public void spawnTileRandom(Tile tile) {
+    public void spawnNewPellet(){
+        Tile pellet = new Tile(0,0, ColorHelper.GetRandomPelletColor());
+        repositionTileRandom(pellet);
+        pelletArray.add(pellet);
+    }
+
+    public void repositionTileRandom(Tile tile) {
         tile.x = RandomHelper.GetRandom().nextInt(screenWidth/tileSize);
         tile.y = RandomHelper.GetRandom().nextInt(screenHeight/tileSize);
     }
@@ -78,8 +83,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
 
         // Pellets
-        g.setColor(pellet.GetColor());
-        g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
+        for (int i = 0 ; i < pelletArray.size(); i++) {
+            Tile pellet = pelletArray.get(i);
+            g.setColor(pellet.GetColor());
+            g.fillRect(pellet.x * tileSize, pellet.y * tileSize, tileSize, tileSize);
+        }
 
         // Game Text
         g.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -98,12 +106,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
 
     public void slither() {
-        if (collision(snakeHead, pellet)) {
-            snakeBody.add(0, new Tile(pellet.x, pellet.y, snakeHead.GetColor()));
-            snakeHead.SetColor(pellet.GetColor());
+        for (int i = 0; i < pelletArray.size(); i++){
+            Tile pellet = pelletArray.get(i);
+            if (collision(snakeHead, pellet)) {
+                snakeBody.add(0, new Tile(pellet.x, pellet.y, snakeHead.GetColor()));
+                snakeHead.SetColor(pellet.GetColor());
 
-            pellet.SetColor(ColorHelper.GetRandomPelletColor());
-            spawnTileRandom(pellet);
+                pellet.SetColor(ColorHelper.GetRandomPelletColor());
+                repositionTileRandom(pellet);
+
+                spawnNewPellet();
+            }
         }
 
         for (int i = snakeBody.size()- 1; i >= 0; i--){
