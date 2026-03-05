@@ -43,6 +43,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     // Debug toggles
     // TODO: Debug Cheat Menu
     boolean canPhase = true;
+    boolean isLoggingEnabled = true;
 
     Game(int screenWidth, int screenHeight) {
         this.screenWidth = screenWidth;
@@ -216,6 +217,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
                 for (int j = 0; j < pelletSpawnMultiplier; j++){
                     spawnNewPellet();
+                }
+
+                if (isLoggingEnabled) {
+                    System.out.println("Added " + pelletSpawnMultiplier + " pellet to the pool.");
+                    System.out.println("Total pellet pool is now size " + pelletArray.size());
                 }
 
                 repositionAllPellets();
