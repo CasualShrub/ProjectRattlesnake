@@ -229,13 +229,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             if (snakeHead.x*tileSize < 0) {
                 snakeHead.x = screenWidth/tileSize;
             }
-            else if (snakeHead.x*tileSize > screenWidth) {
+            else if (snakeHead.x*tileSize >= screenWidth) {
                 snakeHead.x = 0;
             }
             else if (snakeHead.y*tileSize < 0) {
                 snakeHead.y = screenHeight/tileSize;
             }
-            else if (snakeHead.y*tileSize > screenHeight){
+            else if (snakeHead.y*tileSize >= screenHeight){
                 snakeHead.y = 0;
             }
         }
