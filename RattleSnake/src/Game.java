@@ -9,6 +9,7 @@ I intend to use this code as a foundation for building my own augmented version 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
@@ -17,8 +18,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     final int tileSize = 20;
 
     int gameLoopDelay = 100;
-    final int gameLoopSpeedIncrement = 3; //linear difficulty progression for now
-    final int gameLoopMaxSpeed = 40;
+    final int gameLoopSpeedIncrement = 2; //linear difficulty progression for now
+    final int gameLoopMaxSpeed = 35;
 
     //spawning algorithm
     final int safeZoneDistanceFromHead = 3;
@@ -29,9 +30,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     ArrayList<Tile> pelletArray;
 
     Timer gameLoop;
+
+    // Game session data
     int velocityX;
     int velocityY;
     Direction currentDirection;
+    int pelletSpawnMultiplier = 1;
+    int[] pelletSpawnThresholds = {8, 20, 40};
     
     boolean gameOver;
 
@@ -119,7 +124,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    private void incrementGameSpeed(){
+    private void incrementGameDifficulty(){
+        incrementSnakeSpeed();
+        increasePelletSpawnRate();
+    }
+
+    private void incrementSnakeSpeed(){
         if (gameLoopDelay <= gameLoopMaxSpeed) {
             return;
         }
@@ -127,6 +137,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         gameLoop.stop();
         gameLoop = new Timer(gameLoopDelay, this);
         gameLoop.start();
+    }
+
+    private void increasePelletSpawnRate(){
+        for (int i = 0; i < pelletSpawnThresholds.length; i++) {
+            if (snakeBody.size() >= pelletSpawnThresholds[i]){
+                pelletSpawnMultiplier = (i+1) * 2;
+                return;
+            }
+        }
+
+        pelletSpawnMultiplier = 1;
     }
 
     // enforce dont spawn in front of snake?
@@ -193,10 +214,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 pellet.setColor(ColorHelper.GetRandomPelletColor());
                 repositionTileRandom(pellet);
 
-                spawnNewPellet();
+                for (int j = 0; j < pelletSpawnMultiplier; j++){
+                    spawnNewPellet();
+                }
+
                 repositionAllPellets();
 
-                incrementGameSpeed();
+                incrementGameDifficulty();
             }
         }
 
