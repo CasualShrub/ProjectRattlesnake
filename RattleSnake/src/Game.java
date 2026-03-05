@@ -291,6 +291,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 velocityX = 1;
                 velocityY = 0;
                 break;
+            case KeyEvent.VK_SPACE:
+                if (gameLoop.isRunning()){
+                    gameLoop.stop();
+                }
+                else {
+                    gameLoop.start();
+                }
+
         }
 
         currentDirection = Direction.getDirection(velocityX, velocityY);
