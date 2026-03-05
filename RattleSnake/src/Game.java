@@ -109,7 +109,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 x = RandomHelper.GetRandom().nextInt(screenWidth/tileSize);
                 y = RandomHelper.GetRandom().nextInt(screenHeight/tileSize);
 
-                if ((x < safeBoundMinX || x >= safeBoundMaxX) && (y < safeBoundMinY || y >= safeBoundMaxY)) {
+                if ((x < safeBoundMinX || x >= safeBoundMaxX) || (y < safeBoundMinY || y >= safeBoundMaxY)) {
                     break;
                 }
 
